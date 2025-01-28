@@ -1,17 +1,26 @@
-version: '3.8'
+version: '3.7'
 
 services:
   app:
-    build: ./app
+    build: .
+    container_name: flask_app
     ports:
       - "5000:5000"
     depends_on:
-      - mysql
+      - db
+    environment:
+      - FLASK_APP=index.py
+      - FLASK_ENV=development
+    volumes:
+      - .:/app
 
-  mysql:
-    build: ./mysql
+  db:
+    image: mysql:5.7
+    container_name: mysql_db
     environment:
       MYSQL_ROOT_PASSWORD: rootpassword
       MYSQL_DATABASE: visitor_management
     ports:
       - "3306:3306"
+    volumes:
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql

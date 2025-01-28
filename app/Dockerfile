@@ -1,17 +1,17 @@
-# Use the official Python image
+# Use official Python image as the base image
 FROM python:3.9-slim
 
 # Set the working directory in the container
 WORKDIR /app
 
-# Copy the application files into the container
+# Copy all the application files into the container
 COPY . /app
 
-# Install necessary dependencies
+# Install the required Python packages
 RUN pip install --no-cache-dir flask mysql-connector-python
 
-# Expose port 5000
+# Expose the port the app will run on
 EXPOSE 5000
 
-# Command to run the application
-CMD ["python", "index.py"]
+# Run the Flask app when the container starts
+CMD ["flask", "run", "--host=0.0.0.0", "--port=5000"]
